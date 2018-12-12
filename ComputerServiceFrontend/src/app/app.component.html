@@ -5,10 +5,11 @@
     <span *ngIf=!authenticated() class=login (click)="onLogin()">
         zaloguj się
     </span>
-    <span *ngIf=authenticated() class=login (click)="onLogin()">
-        Witaj {{session.getLogin()}}!
+    <span *ngIf=authenticated() class=greeting>
+        Witaj {{session.getLogin()}}! <span (click)=onLogout() class=logout>Wyloguj</span>
     </span>
-    <img class=cartIcon src="assets/cart-69-256.jpg" width="36" />
-
+    <img class=cartIcon src="assets/cart-69-256.jpg" width="50" (click)=goToCart() />
 </div>
-<router-outlet class=router></router-outlet>
+<div class=router>
+    <router-outlet></router-outlet>
+</div>

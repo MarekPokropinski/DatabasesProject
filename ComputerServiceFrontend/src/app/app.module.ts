@@ -8,12 +8,14 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BasicAuthInterceptor } from './basic-auth.interceptor';
 import { CategoriesComponent } from './categories/categories.component';
 import { LoginComponent } from './login/login.component';
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CategoriesComponent,
     LoginComponent,
+    CartComponent,
   ],
   imports: [
     BrowserModule,

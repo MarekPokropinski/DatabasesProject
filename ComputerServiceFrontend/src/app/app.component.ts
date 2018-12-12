@@ -21,4 +21,10 @@ export class AppComponent {
   goToHomeScreen() {
     this.router.navigateByUrl('/');
   }
+  onLogout() {
+    this.session.logout();
+  }
+  goToCart() {
+    this.router.navigateByUrl('/cart');
+  }
 }
