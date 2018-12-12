@@ -1,3 +1,14 @@
-<div class=header>Serwis komputerowy</div>
+<div class=header>
+    <span class=title (click)=goToHomeScreen()>
+        Serwis komputerowy
+    </span>
+    <span *ngIf=!authenticated() class=login (click)="onLogin()">
+        zaloguj się
+    </span>
+    <span *ngIf=authenticated() class=login (click)="onLogin()">
+        Witaj {{session.getLogin()}}!
+    </span>
+    <img class=cartIcon src="assets/cart-69-256.jpg" width="36" />
 
-<router-outlet></router-outlet>
+</div>
+<router-outlet class=router></router-outlet>
