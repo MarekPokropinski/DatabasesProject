@@ -32,6 +32,12 @@ public class ProductController {
 		return convertToDTO(productService.findById(id));
 	}
 
+	@GetMapping("/fromCategory")
+	public List<ProductDTO> getProductsFromCategory(@RequestParam int categoryId) {
+		return productService.findByCategory(categoryId).stream().map((product) -> this.convertToDTO(product))
+				.collect(Collectors.toList());
+	}
+
 	private ProductDTO convertToDTO(Product product) {
 		return new ProductDTO(product.getId(), product.getCategory().getId(), product.getName(),
 				product.getDescription(), product.getPrice());

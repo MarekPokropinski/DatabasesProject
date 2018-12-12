@@ -9,28 +9,32 @@ import { ProductService } from '../product.service';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
-  constructor(private categoriesService: CategoriesService, 
-    private route: ActivatedRoute, 
+  constructor(private categoriesService: CategoriesService,
+    private route: ActivatedRoute,
     private productsService: ProductService,
-    private router: Router) {    
+    private router: Router) {
   }
-  id:number;
-  categories=[];
-  products=[];
-  ngOnInit() { 
-    this.init();   
+  id: number;
+  categories;
+  products;
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.reload(params['id']);
+    });
   }
-  onCategoryClick(id)  {
+  onCategoryClick(id) {
     this.router.navigateByUrl(`/product/${id}`);
-    this.init();
+  }
+
+  async getLists(id) {
+    this.categories = await this.categoriesService.getChildren(id);
+    if (this.categories.length == 0) {
+      this.categories = null;
+    }
+    this.products = await this.productsService.getProducts(id);
+  }
+  reload(id) {
+    console.log(id);
     this.getLists(id);
-  }
-  init()  {
-    this.id = parseInt(this.route.snapshot.paramMap.get('id'));
-    this.getLists(this.id);
-  }
-  getLists(id){
-    this.categories=this.categoriesService.getChildren(id);
-    this.products=this.productsService.getProducts(id);  
   }
 }
