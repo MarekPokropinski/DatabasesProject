@@ -9,6 +9,7 @@ import { BasicAuthInterceptor } from './basic-auth.interceptor';
 import { CategoriesComponent } from './categories/categories.component';
 import { LoginComponent } from './login/login.component';
 import { ProductsComponent } from './products/products.component';
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { ProductsComponent } from './products/products.component';
     CategoriesComponent,
     LoginComponent,
     ProductsComponent,
+    CartComponent,
   ],
   imports: [
     BrowserModule,
