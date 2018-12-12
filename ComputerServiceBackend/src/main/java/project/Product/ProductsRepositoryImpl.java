@@ -24,6 +24,7 @@ public class ProductsRepositoryImpl implements ProductsRepository {
 	private static final String findByIdQuery = "select id, category_id, name, description, price from products where id=?";
 	private static final String findByNameQuery = "select id, category_id, name, description, price from products where name=?";
 	private static final String findByNameLikeQuery = "select id, category_id, name, description, price from products where name like CONCAT(\'%\',?,\'%\')";
+	private static final String findByCategory = "select id, category_id, name, description, price from products where category_id=?";
 	private static final Logger LOG = Logger.getLogger(ProductsRepository.class);
 
 	@Autowired
@@ -96,6 +97,27 @@ public class ProductsRepositoryImpl implements ProductsRepository {
 			Connection connection = dataSource.getConnection();
 			PreparedStatement statement = connection.prepareStatement(findByNameLikeQuery);
 			statement.setString(1, query);
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				products.add(createProductFromResultSet(resultSet));
+			}
+			connection.close();
+		} catch (SQLException e) {
+			LOG.warn(e.getMessage());
+		} catch (CategoryNotFoundException e) {
+			LOG.warn("product belongs to an category that does not exist");
+			LOG.warn(e.getMessage());
+		}
+		return products;
+	}
+
+	@Override
+	public List<Product> getProductsFromCategory(int categoryId) {
+		List<Product> products = new ArrayList<>();
+		try {
+			Connection connection = dataSource.getConnection();
+			PreparedStatement statement = connection.prepareStatement(findByCategory);
+			statement.setInt(1, categoryId);
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 				products.add(createProductFromResultSet(resultSet));

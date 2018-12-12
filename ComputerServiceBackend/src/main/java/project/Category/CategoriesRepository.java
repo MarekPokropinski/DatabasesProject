@@ -8,5 +8,7 @@ public interface CategoriesRepository {
 
 	Optional<Category> findByName(String name);
 
-	List<Category> findChildren(Category parent);
+	List<Category> findChildren(int parentId);
+
+	List<Category> findRootCategories();
 }

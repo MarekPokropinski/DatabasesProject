@@ -9,4 +9,6 @@ public interface ProductsRepository {
 	Optional<Product> findByName(String name);
 
 	List<Product> findByNameQuery(String query);
+
+	List<Product> getProductsFromCategory(int categoryId);
 }

@@ -1,6 +1,16 @@
-<div class=categories >
-    <li *ngFor="let category of categories" (click) = onCategoryClick(category.id)> 
-      {{category.name}}
-    </li>
-  
-  </div>
+<div class=categories>
+  <h2 *ngIf=categories>
+    Podkategorie:
+  </h2>
+  <li *ngFor="let category of categories" (click)=onCategoryClick(category.id)>
+    {{category.name}}
+  </li>
+</div>
+<div class=products>
+  <h2>
+    Produkty:
+  </h2>
+  <li *ngFor="let product of products">
+    {{product.name}} {{product.price}}
+  </li>
+</div>

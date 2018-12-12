@@ -20,6 +20,7 @@ public class CategoriesRepositoryImpl implements CategoriesRepository {
 	private static final String findByIdQuery = "select id, parent_category_id, name from categories where id=?";
 	private static final String findByNameQuery = "select id, parent_category_id, name from categories where name=?";
 	private static final String findChildrenQuery = "select id, parent_category_id, name from categories where parent_category_id=?";
+	private static final String findRootsQuery = "select id, parent_category_id, name from categories where parent_category_id is null";
 
 	@Autowired
 	private DataSource dataSource;
@@ -68,11 +69,30 @@ public class CategoriesRepositoryImpl implements CategoriesRepository {
 	}
 
 	@Override
-	public List<Category> findChildren(Category parent) {
+	public List<Category> findChildren(int parentId) {
 		try {
 			Connection connection = dataSource.getConnection();
 			PreparedStatement statement = connection.prepareStatement(findChildrenQuery);
-			statement.setInt(1, parent.getId());
+			statement.setInt(1, parentId);
+			ResultSet resultSet = statement.executeQuery();
+
+			List<Category> categories = new ArrayList<>();
+			while (resultSet.next()) {
+				Category category = createCategoryFromResultSet(resultSet);
+				categories.add(category);
+			}
+			connection.close();
+			return categories;
+		} catch (SQLException e) {
+			return Arrays.asList();
+		}
+	}
+
+	@Override
+	public List<Category> findRootCategories() {
+		try {
+			Connection connection = dataSource.getConnection();
+			PreparedStatement statement = connection.prepareStatement(findRootsQuery);
 			ResultSet resultSet = statement.executeQuery();
 
 			List<Category> categories = new ArrayList<>();

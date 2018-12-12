@@ -6,4 +6,6 @@ public interface ProductService {
 	List<Product> findByName(String name);
 
 	Product findById(int id) throws ProductNotFoundException;
+
+	List<Product> findByCategory(int categoryId);
 }

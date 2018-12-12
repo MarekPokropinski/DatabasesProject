@@ -9,12 +9,12 @@ import { Router } from '@angular/router';
 })
 export class CategoriesComponent implements OnInit {
 
-  constructor(private categoriesService:CategoriesService, private router: Router) { }
+  constructor(private categoriesService: CategoriesService, private router: Router) { }
   categories;
-  ngOnInit() {
-    this.categories=this.categoriesService.getRootCategories();
+  async ngOnInit() {
+    this.categories = await this.categoriesService.getRootCategories();
   }
-  onCategoryClick(id)  {
+  onCategoryClick(id) {
     this.router.navigateByUrl(`/product/${id}`);
   }
 }
