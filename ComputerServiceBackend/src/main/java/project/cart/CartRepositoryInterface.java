@@ -12,4 +12,6 @@ public interface CartRepositoryInterface {
 	void updateCart(int userId, int productId, int amount);
 
 	void removeFromCart(int userId, int productId);
+
+	void clear(int userId);
 }

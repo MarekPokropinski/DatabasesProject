@@ -17,12 +17,12 @@ import project.Product.ProductDTO;
 
 @Repository
 public class CartRepository implements CartRepositoryInterface {
-
 	private static final String removeFromCart = "delete from carts where productsId=? and usersId=?";
 	private static final String addToCart = "insert into carts (usersId,productsId,amount) values (?,?,?)";
 	private static final String updateCart = "update carts set amount = ? where productsId=? and usersId=?";
 	private static final String findElementByProductId = "select amount from carts where productsId=? and usersId=?";
 	private static final String findCartByUsername = "select products.id, category_id, products.name, description, price, carts.productsId, carts.amount from carts join users on (carts.usersId=users.id) join products on(carts.productsId=products.id) where users.username=?";
+	private static final String clearCart = "delete from carts where usersId=?";
 	private static final Logger LOG = Logger.getLogger(CartRepositoryInterface.class);
 
 	@Autowired
@@ -113,6 +113,19 @@ public class CartRepository implements CartRepositoryInterface {
 			PreparedStatement statement = connection.prepareStatement(removeFromCart);
 			statement.setInt(2, userId);
 			statement.setInt(1, productId);
+			statement.executeUpdate();
+			connection.close();
+		} catch (SQLException e) {
+			LOG.warn(e.getMessage());
+		}
+	}
+
+	@Override
+	public void clear(int userId) {
+		try {
+			Connection connection = dataSource.getConnection();
+			PreparedStatement statement = connection.prepareStatement(clearCart);
+			statement.setInt(1, userId);
 			statement.executeUpdate();
 			connection.close();
 		} catch (SQLException e) {

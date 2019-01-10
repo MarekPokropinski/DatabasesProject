@@ -25,7 +25,6 @@ public class CartService implements CartServiceInterface {
 	public void addToCart(String username, int productId, int amount) throws CartException {
 		int userId = userRepository.getUser(username).orElseThrow(CartException::new).getId();
 		int oldAmount = cartRepository.getProductAmount(userId, productId);
-		System.out.println("Old amount was: " + oldAmount);
 		if (oldAmount == 0) {
 			cartRepository.addToCart(userId, productId, amount);
 		} else if (amount != 0) {
@@ -33,5 +32,11 @@ public class CartService implements CartServiceInterface {
 		} else {
 			cartRepository.removeFromCart(userId, productId);
 		}
+	}
+
+	@Override
+	public void clear(String username) throws CartException {
+		int userId = userRepository.getUser(username).orElseThrow(CartException::new).getId();
+		cartRepository.clear(userId);
 	}
 }
