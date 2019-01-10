@@ -25,6 +25,9 @@ export class ProductsComponent implements OnInit {
   onCategoryClick(id) {
     this.router.navigateByUrl(`/product/${id}`);
   }
+  onProductClick(id) {
+    this.router.navigateByUrl(`/showDetails/${id}`);
+  }
 
   async getLists(id) {
     this.categories = await this.categoriesService.getChildren(id);
@@ -37,4 +40,5 @@ export class ProductsComponent implements OnInit {
     console.log(id);
     this.getLists(id);
   }
+
 }

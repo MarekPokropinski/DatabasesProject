@@ -24,5 +24,9 @@ export class LoginComponent implements OnInit {
     this.session.login(this.user.login, this.user.password);
     this.router.navigateByUrl("/");
   }
+  // handleRegisterButtonClick(){
+  //   this.session.register(this.user.login, this.user.password);
+  //   this.router.navigateByUrl("/");
+  // }
 
 }
