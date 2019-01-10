@@ -25,6 +25,7 @@ public class UserController {
 
 	@PostMapping("/register")
 	void registerUser(@RequestBody User user) throws UserException {
+		user.autority = "user";
 		userRepository.addUser(user);
 	}
 }
