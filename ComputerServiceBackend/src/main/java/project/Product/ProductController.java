@@ -3,7 +3,6 @@ package project.Product;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/product")
 public class ProductController {
-	private static final Logger LOG = Logger.getLogger(ProductController.class);
 	private ProductService productService;
 
 	@Autowired

@@ -11,6 +11,5 @@ export class ProductService {
 
   getProducts(categoryId) {
     return this.http.get(environment.url + 'product/fromCategory?categoryId=' + categoryId).toPromise();
-
   }
 }
