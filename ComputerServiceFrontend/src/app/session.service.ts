@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { registerContentQuery } from '@angular/core/src/render3';
-import { stringify } from '@angular/core/src/util';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +14,16 @@ export class SessionService {
   login(login: string, password: string) {
     let credentials = 'Basic ' + btoa(login + ':' + password);
     localStorage.setItem("credentials", credentials);
-    localStorage.setItem("login", login);
+
+    return this.http.get(`${environment.url}auth/user`).pipe(
+      map(response => {
+        localStorage.setItem("login", login);
+      }),
+      catchError(error => {
+        localStorage.removeItem("credentials");
+        return null;
+      })
+    );
   }
   logout() {
     localStorage.removeItem("credentials");
@@ -25,7 +33,7 @@ export class SessionService {
     return localStorage.getItem("login");
   }
   isAuthenticated() {
-    if (localStorage.getItem("credentials")) {
+    if (localStorage.getItem("login")) {
       return true;
     }
     return false;

@@ -22,22 +22,21 @@ export class ProductsComponent implements OnInit {
       this.reload(params['id']);
     });
   }
-  onCategoryClick(id) {
+  onCategoryClick(id: number) {
     this.router.navigateByUrl(`/product/${id}`);
   }
-  onProductClick(id) {
+  onProductClick(id: number) {
     this.router.navigateByUrl(`/showDetails/${id}`);
   }
 
-  async getLists(id) {
+  async getLists(id: number) {
     this.categories = await this.categoriesService.getChildren(id);
     if (this.categories.length == 0) {
       this.categories = null;
     }
     this.products = await this.productsService.getProducts(id);
   }
-  reload(id) {
-    console.log(id);
+  reload(id: number) {
     this.getLists(id);
   }
 
