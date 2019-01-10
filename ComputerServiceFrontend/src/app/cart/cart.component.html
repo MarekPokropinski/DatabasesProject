@@ -1,3 +1,12 @@
-<p>
-  cart works!
-</p>
+<h2>
+  Your cart:
+</h2>
+<div>
+  <ul>
+    <li *ngFor="let element of products">
+      {{element.product.name}} {{element.amount}} {{element.product.price*element.amount}}
+      <button (click)="addProduct(element)">+</button> <button (click)="removeProduct(element)">-</button>
+    </li>
+  </ul>
+</div>
+<button (click)="handleBuyButton()">kup</button>

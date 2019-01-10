@@ -17,23 +17,23 @@ export class ProductComponent implements OnInit {
   name: string
   id: number
 
-  constructor(private session: CartService, private router: Router, private productsService: ProductService, private route: ActivatedRoute, ) { }
+  constructor(private cartService: CartService, private router: Router, private productsService: ProductService, private route: ActivatedRoute, ) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.getData(params['id']);
-     
     });
   }
 
   async getData(id) {
     this.product = await this.productsService.getProduct(id);
     this.name = this.product.name;
-
+    this.id = id;
   }
-  
-  handleAddButtonClick() {
-    this.session.AddProducttoCart(this.id);
+
+  addToCart() {
+    console.log(this.id)
+    this.cartService.addProductToCart(this.id, 1);
     this.router.navigateByUrl("/");
   }
 }

@@ -1,6 +1,6 @@
-<p>
-  Nazwa: {{product.name}}, cena: {{product.price}}, opis: {{product.description}}  
+<p *ngIf="product">
+  Nazwa: {{product.name}}, cena: {{product.price}}, opis: {{product.description}}
 </p>
 <div class="form_buttons">
-  <button class="form_button" (click)='handleLoginButtonClick()'>Dodaj do koszyka</button>
+  <button class="form_button" (click)='addToCart()'>Dodaj do koszyka</button>
 </div>

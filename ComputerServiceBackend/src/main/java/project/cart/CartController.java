@@ -26,4 +26,10 @@ public class CartController {
 	public void addToCart(Principal user, @RequestParam int productId, @RequestParam int amount) throws CartException {
 		cartService.addToCart(user.getName(), productId, amount);
 	}
+
+	@PutMapping("/changeAmount")
+	public void changeAmount(Principal user, @RequestParam int productId, @RequestParam int amount)
+			throws CartException {
+		cartService.addToCart(user.getName(), productId, amount);
+	}
 }
