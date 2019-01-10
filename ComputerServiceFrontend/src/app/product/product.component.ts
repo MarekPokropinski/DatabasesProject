@@ -10,27 +10,27 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
-  
+
   //categoryID: number
   product;
   name: string
-  id:number
-  
-  constructor(private session: SessionService, private router: Router,private productsService: ProductService,private route: ActivatedRoute,) { }
+  id: number
+
+  constructor(private session: SessionService, private router: Router, private productsService: ProductService, private route: ActivatedRoute, ) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.reload(params['id']);
-      //this.id=this.router.url.substring(this.router.url.length-2,this.router.url.length);
     });
   }
 
   async getData(id) {
-    this.product=await this.productsService.getProduct(id);
-     this.name=this.product.name;
-
+    this.product = await this.productsService.getProduct(id);
+    this.name = this.product.name;
   }
+
   reload(id) {
-    console.log(id);}
+    console.log(id);
+  }
 
 }

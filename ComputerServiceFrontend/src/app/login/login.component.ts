@@ -20,13 +20,11 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  handleLoginButtonClick() {
-    this.session.login(this.user.login, this.user.password);
-    this.router.navigateByUrl("/");
+  async handleLoginButtonClick() {
+    this.session.login(this.user.login, this.user.password).subscribe(
+      response => {
+        this.router.navigateByUrl("/");
+      }
+    );
   }
-  // handleRegisterButtonClick(){
-  //   this.session.register(this.user.login, this.user.password);
-  //   this.router.navigateByUrl("/");
-  // }
-
 }
