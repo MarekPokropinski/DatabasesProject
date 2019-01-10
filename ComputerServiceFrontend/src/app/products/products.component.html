@@ -10,7 +10,7 @@
   <h2>
     Produkty:
   </h2>
-  <li *ngFor="let product of products">
+  <li *ngFor="let product of products" (click)=onProductClick(product.id)>
     {{product.name}} {{product.price}}
   </li>
 </div>

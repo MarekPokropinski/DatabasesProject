@@ -1,0 +1,17 @@
+<div>
+  <h2 class="form_title">Zarejestruj się!</h2>
+  <div class="form_border">
+    <div class="form_text">Login:</div>
+    <div class="form_textfields">
+      <input class="form_textfield" [(ngModel)]='user.login' placeholder='login'>
+    </div>
+    <div class="form_text">Hasło:</div>
+    <div class="form_textfields">
+      <input class="form_textfield" [(ngModel)]='user.password' placeholder='password' type='password'>
+    </div>
+
+    <div class="form_buttons">
+      <button class="form_button" (click)='handleRegisterButtonClick()'>Rejestracja</button>
+    </div>
+  </div>
+</div>

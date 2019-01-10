@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { registerContentQuery } from '@angular/core/src/render3';
+import { stringify } from '@angular/core/src/util';
 
 @Injectable({
   providedIn: 'root'
@@ -27,4 +30,13 @@ export class SessionService {
     }
     return false;
   }
+
+  register(user: string, password: string) {
+    this.http.post(environment.url + "user/register", {
+      password: password,
+      username: user
+    }
+    ).subscribe();
+  }
+
 }

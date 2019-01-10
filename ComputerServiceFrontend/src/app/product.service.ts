@@ -12,4 +12,7 @@ export class ProductService {
   getProducts(categoryId) {
     return this.http.get(environment.url + 'product/fromCategory?categoryId=' + categoryId).toPromise();
   }
+  getProduct(productId) {
+    return this.http.get(environment.url + 'product/get?id=' + productId).toPromise();
+  }
 }
