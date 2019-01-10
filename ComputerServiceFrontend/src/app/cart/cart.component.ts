@@ -9,7 +9,13 @@ export class CartComponent implements OnInit {
 
   constructor() { }
 
+  private products;
+  private totalValue;
+
   ngOnInit() {
   }
 
+  AddProduct(id:number){
+    
+  }
 }
