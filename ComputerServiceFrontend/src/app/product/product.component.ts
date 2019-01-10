@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SessionService } from '../session.service';
+//import { SessionService } from '../session.service';
 import { ProductService } from '../product.service';
 import { ActivatedRoute } from '@angular/router';
+import { CartService } from '../cart.service';
 
 @Component({
   selector: 'app-product',
@@ -16,21 +17,23 @@ export class ProductComponent implements OnInit {
   name: string
   id: number
 
-  constructor(private session: SessionService, private router: Router, private productsService: ProductService, private route: ActivatedRoute, ) { }
+  constructor(private session: CartService, private router: Router, private productsService: ProductService, private route: ActivatedRoute, ) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.reload(params['id']);
+      this.getData(params['id']);
+     
     });
   }
 
   async getData(id) {
     this.product = await this.productsService.getProduct(id);
     this.name = this.product.name;
-  }
 
-  reload(id) {
-    console.log(id);
   }
-
+  
+  handleAddButtonClick() {
+    this.session.AddProducttoCart(this.id);
+    this.router.navigateByUrl("/");
+  }
 }
