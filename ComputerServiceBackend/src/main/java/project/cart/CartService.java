@@ -1,5 +1,6 @@
 package project.cart;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,11 @@ public class CartService implements CartServiceInterface {
 	public void clear(String username) throws CartException {
 		int userId = userRepository.getUser(username).orElseThrow(CartException::new).getId();
 		cartRepository.clear(userId);
+	}
+
+	@Override
+	public BigDecimal getPrice(String username) throws CartException {
+		int userId = userRepository.getUser(username).orElseThrow(CartException::new).getId();
+		return cartRepository.getPrice(userId);
 	}
 }

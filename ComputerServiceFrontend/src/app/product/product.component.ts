@@ -5,6 +5,7 @@ import { ProductService } from '../product.service';
 import { ActivatedRoute } from '@angular/router';
 import { CartService } from '../cart.service';
 import { SessionService } from '../session.service';
+import { parseCookieValue } from '@angular/common/src/cookie';
 
 @Component({
   selector: 'app-product',
@@ -15,8 +16,9 @@ export class ProductComponent implements OnInit {
 
   //categoryID: number
   product;
-  name: string
-  id: number
+  name: string;
+  id: number;
+  amount: string;
 
   constructor(private cartService: CartService, private router: Router, private productsService: ProductService, private route: ActivatedRoute, private session: SessionService) { }
 
@@ -33,8 +35,13 @@ export class ProductComponent implements OnInit {
   }
 
   addToCart() {
-    console.log(this.id)
-    this.cartService.addProductToCart(this.id, 1);
-    this.router.navigateByUrl("/");
+    let val = parseInt(this.amount);
+    if (val != NaN) {
+      this.cartService.addProductToCart(this.id, val);
+    } this.router.navigateByUrl("/");
+  }
+
+  isAuthenticated() {
+    return this.session.isAuthenticated();
   }
 }

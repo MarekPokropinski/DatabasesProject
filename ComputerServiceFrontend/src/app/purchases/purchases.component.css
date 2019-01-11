@@ -1,0 +1,42 @@
+.product{
+    margin: 5px auto;
+    padding-bottom: 5px;
+}
+.purchase{
+    width: 50%;
+    
+    margin: 5px auto;
+    border-radius: 3px;
+
+    background-color: #4d6681;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    color: white;
+    border-bottom: none;
+}
+.header{
+    width: 50%;
+    
+    margin: 5px auto;
+    border-radius: 3px;
+
+    background-color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    color: black;
+    border-bottom: none;
+}
+.name{
+    text-align: left !important;
+    
+    margin: 0 10px;
+}
+.price{
+    text-align: right;
+    position: absolute;
+    right:calc(25% + 10px);
+    width: 100%;
+}
+.id{
+    text-align: center;
+}

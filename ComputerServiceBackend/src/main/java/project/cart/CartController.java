@@ -1,5 +1,6 @@
 package project.cart;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 
@@ -31,5 +32,10 @@ public class CartController {
 	public void changeAmount(Principal user, @RequestParam int productId, @RequestParam int amount)
 			throws CartException {
 		cartService.addToCart(user.getName(), productId, amount);
+	}
+
+	@GetMapping("/price")
+	public BigDecimal getPrice(Principal user) throws CartException {
+		return cartService.getPrice(user.getName());
 	}
 }

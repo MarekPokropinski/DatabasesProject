@@ -4,9 +4,12 @@
 <div>
   <ul>
     <li *ngFor="let element of products">
-      {{element.product.name}} {{element.amount}} {{element.product.price*element.amount}}
+      {{element.product.name}} {{element.amount}} {{(element.product.price*element.amount).toFixed(2)}}
       <button (click)="addProduct(element)">+</button> <button (click)="removeProduct(element)">-</button>
     </li>
   </ul>
+  <div>
+    cena: {{totalValue.toFixed(2)}}
+  </div>
 </div>
 <button (click)="handleBuyButton()">kup</button>

@@ -41,6 +41,7 @@ public class PurchaseRepository implements PurchaseRepositoryInterface {
 				Purchase purchase = new Purchase();
 				purchase.setId(resultSet.getInt(1));
 				purchase.setStatus(resultSet.getString(2));
+				purchases.add(purchase);
 			}
 
 			for (Purchase purchase : purchases) {

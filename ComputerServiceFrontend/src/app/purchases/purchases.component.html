@@ -1,0 +1,16 @@
+<div>
+  <h2>
+    Twoje zakupy
+  </h2>
+  <div class=purchase *ngFor="let purchase of purchases">
+    <div class=id>
+      id: {{purchase.id}}
+    </div>
+    <div class=id>
+      status: {{purchase.status}}
+    </div>
+    <div class=product *ngFor="let element of purchase.products">
+      <span class=name>{{element.product.name}}</span> <span class=price>{{element.amount}}</span>
+    </div>
+  </div>
+</div>

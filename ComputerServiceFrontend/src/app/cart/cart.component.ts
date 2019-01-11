@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../cart.service';
+import { PurchaseService } from '../purchase.service';
 
 @Component({
   selector: 'app-cart',
@@ -8,10 +9,10 @@ import { CartService } from '../cart.service';
 })
 export class CartComponent implements OnInit {
 
-  constructor(private cartService: CartService) { }
+  constructor(private cartService: CartService, private purchasesSerivce: PurchaseService) { }
 
-  private products;
-  private totalValue;
+  products;
+  totalValue;
 
   ngOnInit() {
     this.prepareCart();
@@ -19,17 +20,27 @@ export class CartComponent implements OnInit {
 
   async prepareCart() {
     this.products = await this.cartService.getCart();
+    this.totalValue = await this.cartService.getCartPrice();
   }
 
   handleBuyButton() {
-
+    this.purchasesSerivce.createPurchase();
+    this.products = [];
   }
   async addProduct(element) {
-    await this.cartService.addProductToCart(element.product.id, 1)
-    this.prepareCart();
+    element.amount++;
+    this.totalValue += element.product.price;
+    await this.cartService.addProductToCart(element.product.id, 1);
   }
   async removeProduct(element) {
+    element.amount--;
+    this.totalValue -= element.product.price;
+    if (element.amount <= 0) {
+      this.products.splice(
+        this.products.indexOf(element),
+        1
+      )
+    }
     await this.cartService.addProductToCart(element.product.id, -1)
-    this.prepareCart();
   }
 }

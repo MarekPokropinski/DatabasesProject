@@ -6,7 +6,9 @@
         zaloguj się
     </span>
     <span *ngIf=authenticated() class=greeting>
-        Witaj {{session.getLogin()}}! <span (click)=onLogout() class=logout>Wyloguj</span>
+        Witaj {{session.getLogin()}}!
+        <span (click)=goToPurchases() class=logout>zakupy</span>
+        <span (click)=onLogout() class=logout>Wyloguj </span>
     </span>
     <img *ngIf=authenticated() class=cartIcon src="assets/cart-69-256.png" width="50" (click)=goToCart() />
 </div>

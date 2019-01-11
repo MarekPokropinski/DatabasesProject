@@ -1,5 +1,6 @@
 package project.cart;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +18,7 @@ import project.Product.ProductDTO;
 
 @Repository
 public class CartRepository implements CartRepositoryInterface {
+	private static final String getPrice = "select `SUM(carts.amount * products.price)` from cart_prices where id=?";
 	private static final String removeFromCart = "delete from carts where productsId=? and usersId=?";
 	private static final String addToCart = "insert into carts (usersId,productsId,amount) values (?,?,?)";
 	private static final String updateCart = "update carts set amount = ? where productsId=? and usersId=?";
@@ -131,6 +133,23 @@ public class CartRepository implements CartRepositoryInterface {
 		} catch (SQLException e) {
 			LOG.warn(e.getMessage());
 		}
+	}
+
+	@Override
+	public BigDecimal getPrice(int userId) throws CartException {
+		BigDecimal price = new BigDecimal(0);
+		try {
+			Connection connection = dataSource.getConnection();
+			PreparedStatement statement = connection.prepareStatement(getPrice);
+			statement.setInt(1, userId);
+			ResultSet resultSet = statement.executeQuery();
+			resultSet.next();
+			price = resultSet.getBigDecimal(1);
+			connection.close();
+		} catch (SQLException e) {
+			LOG.warn(e.getMessage());
+		}
+		return price;
 	}
 
 }

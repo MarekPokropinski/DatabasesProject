@@ -1,5 +1,6 @@
 package project.cart;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface CartRepositoryInterface {
@@ -14,4 +15,6 @@ public interface CartRepositoryInterface {
 	void removeFromCart(int userId, int productId);
 
 	void clear(int userId);
+
+	BigDecimal getPrice(int userId) throws CartException;
 }

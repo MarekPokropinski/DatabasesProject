@@ -24,8 +24,12 @@ export class AppComponent {
   }
   onLogout() {
     this.session.logout();
+    this.router.navigateByUrl('/');
   }
   goToCart() {
     this.router.navigateByUrl('/cart');
+  }
+  goToPurchases() {
+    this.router.navigateByUrl('/purchases');
   }
 }

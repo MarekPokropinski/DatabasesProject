@@ -15,4 +15,7 @@ export class CartService {
   getCart() {
     return this.http.get(environment.url + 'cart/get').toPromise();
   }
+  getCartPrice() {
+    return this.http.get(environment.url + 'cart/price').toPromise();
+  }
 }

@@ -1,6 +1,6 @@
 <p *ngIf="product">
-  Nazwa: {{product.name}}, cena: {{product.price}}, opis: {{product.description}}
+  Nazwa: {{product.name}}, cena: {{product.price.toFixed(2)}}, opis: {{product.description}}
 </p>
-<div *ngIf="session.isAuthenticated()" class="form_buttons">
-  <button class="form_button" (click)='addToCart()'>Dodaj do koszyka</button>
+<div *ngIf="isAuthenticated()" class="form_buttons">
+  <input class="form_input" [(ngModel)]="amount"> <button class="form_button" (click)='addToCart()'>Dodaj do koszyka</button>
 </div>
