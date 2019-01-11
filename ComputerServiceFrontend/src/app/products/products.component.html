@@ -2,15 +2,18 @@
   <h2 *ngIf=categories>
     Podkategorie:
   </h2>
-  <li *ngFor="let category of categories" (click)=onCategoryClick(category.id)>
+  <div class=category *ngFor="let category of categories" (click)=onCategoryClick(category.id)>
     {{category.name}}
-  </li>
+  </div>
 </div>
 <div class=products>
   <h2>
     Produkty:
   </h2>
-  <li *ngFor="let product of products" (click)=onProductClick(product.id)>
-    {{product.name}} {{product.price}}
-  </li>
+  <div class="header">
+    <span class=name>nazwa</span> <span class=price>cena</span>
+  </div>
+  <div class="product" *ngFor="let product of products" (click)=onProductClick(product.id)>
+    <span class=name>{{product.name}}</span> <span class=price>{{product.price}}</span>
+  </div>
 </div>

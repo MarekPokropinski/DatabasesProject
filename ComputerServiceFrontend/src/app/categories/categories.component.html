@@ -1,7 +1,6 @@
-<div class=categories *ngFor="let Category of categories">
-  <li (click) = onCategoryClick(Category.id)>
+<div class=categories>
+  <h2>Kategorie:</h2>
+  <div class=category *ngFor="let Category of categories" (click)=onCategoryClick(Category.id)>
     {{Category.name}}
-  </li>
-
-  
+  </div>
 </div>

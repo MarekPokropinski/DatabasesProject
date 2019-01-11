@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ProductService } from '../product.service';
 import { ActivatedRoute } from '@angular/router';
 import { CartService } from '../cart.service';
+import { SessionService } from '../session.service';
 
 @Component({
   selector: 'app-product',
@@ -17,7 +18,7 @@ export class ProductComponent implements OnInit {
   name: string
   id: number
 
-  constructor(private cartService: CartService, private router: Router, private productsService: ProductService, private route: ActivatedRoute, ) { }
+  constructor(private cartService: CartService, private router: Router, private productsService: ProductService, private route: ActivatedRoute, private session: SessionService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {

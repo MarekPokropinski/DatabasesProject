@@ -1,3 +1,22 @@
 .categories{
     margin: 25px;
 }
+
+.category{
+    width: 50%;
+    text-align: center;
+    margin: 5px auto;
+    border-radius: 3px;
+
+    background-color: #4d6681;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    color: white;
+    border-bottom: none;
+}
+.name{
+    text-align: left;
+}
+.price{
+    text-align: right;
+}
