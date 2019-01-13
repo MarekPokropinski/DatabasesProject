@@ -27,12 +27,14 @@ public class CartService implements CartServiceInterface {
 		int userId = userRepository.getUser(username).orElseThrow(CartException::new).getId();
 		int oldAmount = cartRepository.getProductAmount(userId, productId);
 		int newAmount = oldAmount + amount;
-		if (oldAmount == 0) {
+		if (oldAmount == 0 && newAmount > 0) {
 			cartRepository.addToCart(userId, productId, newAmount);
-		} else if (newAmount != 0) {
+		} else if (newAmount > 0 && oldAmount > 0) {
 			cartRepository.updateCart(userId, productId, newAmount);
-		} else {
+		} else if (newAmount == 0 && oldAmount > 0) {
 			cartRepository.removeFromCart(userId, productId);
+		} else {
+			throw new CartException();
 		}
 	}
 
