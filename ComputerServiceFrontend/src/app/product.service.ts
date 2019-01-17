@@ -15,4 +15,7 @@ export class ProductService {
   getProduct(productId) {
     return this.http.get(environment.url + 'product/get?id=' + productId).toPromise();
   }
+  addProduct(product) {
+    return this.http.post(environment.url + 'product/add', product);
+  }
 }

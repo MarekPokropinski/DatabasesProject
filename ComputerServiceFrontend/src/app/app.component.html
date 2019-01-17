@@ -7,6 +7,7 @@
     </span>
     <span *ngIf=authenticated() class=greeting>
         Witaj {{session.getLogin()}}!
+        <span *ngIf=isAdmin (click)=goToAdmin() class=logout>admin</span>
         <span (click)=goToPurchases() class=logout>zakupy</span>
         <span (click)=onLogout() class=logout>Wyloguj </span>
     </span>

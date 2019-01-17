@@ -20,23 +20,27 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Product> findByName(String name) {
+	public List<ProductDTO> findByName(String name) {
 		return productsRepository.findByNameQuery(name);
 	}
 
 	@Override
-	public Product findById(int id) throws ProductNotFoundException {
+	public ProductDTO findById(int id) throws ProductNotFoundException {
 		return productsRepository.findById(id).orElseThrow(ProductNotFoundException::new);
 	}
 
 	@Override
-	public List<Product> findByCategory(int categoryId) {
-		List<Product> products = productsRepository.getProductsFromCategory(categoryId);
+	public List<ProductDTO> findByCategory(int categoryId) {
+		List<ProductDTO> products = productsRepository.getProductsFromCategory(categoryId);
 		for (Category category : categoriesService.getChildrenOfCategory(categoryId)) {
-			List<Product> childProducts = findByCategory(category.getId());
+			List<ProductDTO> childProducts = findByCategory(category.getId());
 			products.addAll(childProducts);
 		}
 		return products;
+	}
+	@Override
+	public void createProduct(ProductDTO product){
+		productsRepository.createProduct(product);
 	}
 
 }

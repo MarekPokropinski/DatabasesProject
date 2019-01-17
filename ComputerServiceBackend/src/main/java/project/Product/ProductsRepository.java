@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductsRepository {
-	Optional<Product> findById(int id);
+	Optional<ProductDTO> findById(int id);
 
-	Optional<Product> findByName(String name);
+	Optional<ProductDTO> findByName(String name);
 
-	List<Product> findByNameQuery(String query);
+	List<ProductDTO> findByNameQuery(String query);
 
-	List<Product> getProductsFromCategory(int categoryId);
+	List<ProductDTO> getProductsFromCategory(int categoryId);
+
+	void createProduct(ProductDTO product);
 }

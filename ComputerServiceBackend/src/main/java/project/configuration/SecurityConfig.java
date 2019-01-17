@@ -14,30 +14,33 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-	@Autowired
-	private DataSource dataSource;
+    @Autowired
+    private DataSource dataSource;
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.httpBasic().and().authorizeRequests()
-				.antMatchers("/login", "/logout", "/categories/**", "/product/**", "/user/**").permitAll().anyRequest()
-				.authenticated().and().logout().permitAll().and().csrf().disable();
-	}
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.httpBasic().and().authorizeRequests()
+                .antMatchers("/product/add").hasAuthority("admin")
+                .antMatchers("/login", "/logout", "/categories/**", "/product/**", "/user/**").permitAll()
+                .anyRequest().authenticated()
+                .and().logout().permitAll()
+                .and().csrf().disable();
+    }
 
-	@Override
-	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers(HttpMethod.OPTIONS);
-	}
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers(HttpMethod.OPTIONS);
+    }
 
-	@Autowired
-	public void configureAuthenticationManagerBuilder(AuthenticationManagerBuilder authenticationManagerBuilder)
-			throws Exception {
-		authenticationManagerBuilder.jdbcAuthentication().dataSource(dataSource)
-				.usersByUsernameQuery("select u.username, u.password, 1 from users u where u.username = ?")
-				.authoritiesByUsernameQuery("select username, authority from users where username = ?")
-				.passwordEncoder(passwordEncoder);
-	}
+    @Autowired
+    public void configureAuthenticationManagerBuilder(AuthenticationManagerBuilder authenticationManagerBuilder)
+            throws Exception {
+        authenticationManagerBuilder.jdbcAuthentication().dataSource(dataSource)
+                .usersByUsernameQuery("select u.username, u.password, 1 from users u where u.username = ?")
+                .authoritiesByUsernameQuery("select username, authority from users where username = ?")
+                .passwordEncoder(passwordEncoder);
+    }
 }

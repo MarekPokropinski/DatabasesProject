@@ -1,0 +1,22 @@
+<div>
+  <p-toast></p-toast>
+  Dodawanie produktu
+  <div>
+    Wybór kategorii:
+    <div>
+      <select *ngFor="let categoriesList of categoriesLists" [attr.disabled]="categoriesList.disabled" [(ngModel)]=categoriesList.selected>
+        <option *ngFor="
+        let category of categoriesList.list" [ngValue]="category">
+          {{category.name}}
+        </option>
+      </select>
+    </div>
+    <button (click)="addCategory()">Dodaj podkategorię </button>
+    <div>
+      nazwa: <input [(ngModel)]=name name=nazwa><br>
+      opis: <input [(ngModel)]=description name=opis><br>
+      cena: <input [(ngModel)]=price name=cena>
+    </div>
+    <button (click)="addProduct()">Dodaj podkategorię </button>
+  </div>
+</div>

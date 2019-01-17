@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { map, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class SessionService {
       }),
       catchError(error => {
         localStorage.removeItem("credentials");
-        return null;
+        return throwError(error.error.message)
       })
     );
   }
@@ -40,11 +41,10 @@ export class SessionService {
   }
 
   register(user: string, password: string) {
-    this.http.post(environment.url + "user/register", {
+    return this.http.post(environment.url + "user/register", {
       password: password,
       username: user
-    }
-    ).subscribe();
+    });
   }
 
 }

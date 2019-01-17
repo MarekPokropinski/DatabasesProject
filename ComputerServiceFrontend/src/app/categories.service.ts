@@ -44,6 +44,6 @@ export class CategoriesService {
     return this.http.get(environment.url + 'categories/root').toPromise();
   }
   getChildren(id) {
-    return this.http.get(environment.url + 'categories/category?parentId=' + id).toPromise();
+    return this.http.get<any[]>(environment.url + 'categories/category?parentId=' + id).toPromise();
   }
 }

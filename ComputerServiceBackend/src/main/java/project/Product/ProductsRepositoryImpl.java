@@ -21,115 +21,126 @@ import project.Category.CategoryNotFoundException;
 
 @Repository
 public class ProductsRepositoryImpl implements ProductsRepository {
-	private static final String findByIdQuery = "select id, category_id, name, description, price from products where id=?";
-	private static final String findByNameQuery = "select id, category_id, name, description, price from products where name=?";
-	private static final String findByNameLikeQuery = "select id, category_id, name, description, price from products where name like CONCAT(\'%\',?,\'%\')";
-	private static final String findByCategory = "select id, category_id, name, description, price from products where category_id=?";
-	private static final Logger LOG = Logger.getLogger(ProductsRepository.class);
+    private static final String findByIdQuery = "select id, category_id, name, description, price from products where id=?";
+    private static final String findByNameQuery = "select id, category_id, name, description, price from products where name=?";
+    private static final String findByNameLikeQuery = "select id, category_id, name, description, price from products where name like CONCAT(\'%\',?,\'%\')";
+    private static final String findByCategory = "select id, category_id, name, description, price from products where category_id=?";
+    private static final String addProduct = "insert into products (category_id, name, description, price) values (?,?,?,?)";
+    private static final Logger LOG = Logger.getLogger(ProductsRepository.class);
 
-	@Autowired
-	private DataSource dataSource;
+    @Autowired
+    private DataSource dataSource;
 
-	@Autowired
-	private CategoriesRepository categoriesRepository;
+    @Autowired
+    private CategoriesRepository categoriesRepository;
 
-	private Product createProductFromResultSet(ResultSet resultSet) throws SQLException, CategoryNotFoundException {
-		Product product = new Product();
-		product.setId(resultSet.getInt("id"));
-		int categoryId = resultSet.getInt("category_id");
-		Category category = categoriesRepository.findById(categoryId)
-				.orElseThrow(() -> new CategoryNotFoundException(categoryId));
-		product.setCategory(category);
-		String priceStr = resultSet.getString("price");
-		BigDecimal price = new BigDecimal(priceStr);
-		product.setPrice(price);
-		product.setName(resultSet.getString("name"));
-		product.setDescription(resultSet.getString("description"));
-		return product;
-	}
+    private ProductDTO createProductFromResultSet(ResultSet resultSet) throws SQLException, CategoryNotFoundException {
+        ProductDTO product = new ProductDTO(
+                resultSet.getInt("id"),
+                resultSet.getInt("category_id"),
+                resultSet.getString("name"),
+                resultSet.getString("description"),
+                resultSet.getBigDecimal("price"));
+        return product;
+    }
 
-	@Override
-	public Optional<Product> findById(int id) {
-		try {
-			Connection connection = dataSource.getConnection();
-			PreparedStatement statement = connection.prepareStatement(findByIdQuery);
-			statement.setInt(1, id);
-			ResultSet resultSet = statement.executeQuery();
-			resultSet.next();
-			Product product = createProductFromResultSet(resultSet);
-			connection.close();
-			return Optional.of(product);
-		} catch (SQLException e) {
-			LOG.warn(e.getMessage());
-			return Optional.empty();
-		} catch (CategoryNotFoundException e) {
-			LOG.warn("product belongs to an category that does not exist");
-			LOG.warn(e.getMessage());
-			return Optional.empty();
-		}
-	}
+    @Override
+    public Optional<ProductDTO> findById(int id) {
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(findByIdQuery);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            ProductDTO product = createProductFromResultSet(resultSet);
+            connection.close();
+            return Optional.of(product);
+        } catch (SQLException e) {
+            LOG.warn(e.getMessage());
+            return Optional.empty();
+        } catch (CategoryNotFoundException e) {
+            LOG.warn("product belongs to an category that does not exist");
+            LOG.warn(e.getMessage());
+            return Optional.empty();
+        }
+    }
 
-	@Override
-	public Optional<Product> findByName(String name) {
-		try {
-			Connection connection = dataSource.getConnection();
-			PreparedStatement statement = connection.prepareStatement(findByNameQuery);
-			statement.setString(1, name);
-			ResultSet resultSet = statement.executeQuery();
-			resultSet.next();
-			Product product = createProductFromResultSet(resultSet);
-			connection.close();
-			return Optional.of(product);
-		} catch (SQLException e) {
-			LOG.warn(e.getMessage());
-			return Optional.empty();
-		} catch (CategoryNotFoundException e) {
-			LOG.warn("product belongs to an category that does not exist");
-			LOG.warn(e.getMessage());
-			return Optional.empty();
-		}
-	}
+    @Override
+    public Optional<ProductDTO> findByName(String name) {
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(findByNameQuery);
+            statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            ProductDTO product = createProductFromResultSet(resultSet);
+            connection.close();
+            return Optional.of(product);
+        } catch (SQLException e) {
+            LOG.warn(e.getMessage());
+            return Optional.empty();
+        } catch (CategoryNotFoundException e) {
+            LOG.warn("product belongs to an category that does not exist");
+            LOG.warn(e.getMessage());
+            return Optional.empty();
+        }
+    }
 
-	@Override
-	public List<Product> findByNameQuery(String query) {
-		List<Product> products = new ArrayList<>();
-		try {
-			Connection connection = dataSource.getConnection();
-			PreparedStatement statement = connection.prepareStatement(findByNameLikeQuery);
-			statement.setString(1, query);
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-				products.add(createProductFromResultSet(resultSet));
-			}
-			connection.close();
-		} catch (SQLException e) {
-			LOG.warn(e.getMessage());
-		} catch (CategoryNotFoundException e) {
-			LOG.warn("product belongs to an category that does not exist");
-			LOG.warn(e.getMessage());
-		}
-		return products;
-	}
+    @Override
+    public List<ProductDTO> findByNameQuery(String query) {
+        List<ProductDTO> products = new ArrayList<>();
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(findByNameLikeQuery);
+            statement.setString(1, query);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                products.add(createProductFromResultSet(resultSet));
+            }
+            connection.close();
+        } catch (SQLException e) {
+            LOG.warn(e.getMessage());
+        } catch (CategoryNotFoundException e) {
+            LOG.warn("product belongs to an category that does not exist");
+            LOG.warn(e.getMessage());
+        }
+        return products;
+    }
 
-	@Override
-	public List<Product> getProductsFromCategory(int categoryId) {
-		List<Product> products = new ArrayList<>();
-		try {
-			Connection connection = dataSource.getConnection();
-			PreparedStatement statement = connection.prepareStatement(findByCategory);
-			statement.setInt(1, categoryId);
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-				products.add(createProductFromResultSet(resultSet));
-			}
-			connection.close();
-		} catch (SQLException e) {
-			LOG.warn(e.getMessage());
-		} catch (CategoryNotFoundException e) {
-			LOG.warn("product belongs to an category that does not exist");
-			LOG.warn(e.getMessage());
-		}
-		return products;
-	}
+    @Override
+    public List<ProductDTO> getProductsFromCategory(int categoryId) {
+        List<ProductDTO> products = new ArrayList<>();
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(findByCategory);
+            statement.setInt(1, categoryId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                products.add(createProductFromResultSet(resultSet));
+            }
+            connection.close();
+        } catch (SQLException e) {
+            LOG.warn(e.getMessage());
+        } catch (CategoryNotFoundException e) {
+            LOG.warn("product belongs to an category that does not exist");
+            LOG.warn(e.getMessage());
+        }
+        return products;
+    }
 
+    @Override
+    public void createProduct(ProductDTO product) {
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement(addProduct);
+            statement.setInt(1, product.getCategoryId());
+            statement.setString(2, product.getName());
+            statement.setString(3, product.getDescription());
+            statement.setBigDecimal(4, product.getPrice());
+            statement.executeUpdate();
+            connection.close();
+        } catch (SQLException e) {
+            LOG.warn(e.getMessage());
+        }
+    }
 }

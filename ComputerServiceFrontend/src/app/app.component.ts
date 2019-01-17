@@ -12,11 +12,13 @@ export class AppComponent {
   title = 'ComputerServiceFrontend';
   constructor(private router: Router, private session: SessionService) {
   }
+  isAdmin = false;
   onLogin() {
     console.log("login");
     this.router.navigateByUrl('/login');
   }
   authenticated(): boolean {
+    this.isAdmin = this.session.getLogin() === "admin";
     return this.session.isAuthenticated();
   }
   goToHomeScreen() {
@@ -31,5 +33,8 @@ export class AppComponent {
   }
   goToPurchases() {
     this.router.navigateByUrl('/purchases');
+  }
+  goToAdmin() {
+    this.router.navigateByUrl('/admin');
   }
 }
